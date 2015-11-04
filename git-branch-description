@@ -22,4 +22,4 @@ for branch in $branches; do
     output="$output\n$branch | $description_color$desc$end_color"
 done
 
-echo $output | column -t -s '|'
+echo -e $output | column -t -s '|'
