@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+output=""
+current_branch_name=$(git rev-parse --abbrev-ref HEAD)
+branches=$(git for-each-ref --format='%(refname:short)' refs/heads)
+
+branch_color=$(tput setaf 2)
+description_color=$(tput setaf 6)
+end_color="\033[0m"
+
+for branch in $branches; do
+    # branch description
+    desc=$(git config branch.$branch.description)
+
+    # is current branch
+    if [ $branch == $current_branch_name ]; then
+	branch="* $branch_color$branch$end_color"
+    else
+	branch="  $branch"
+    fi
+    
+    output="$output\n$branch | $description_color$desc$end_color"
+done
+
+echo $output | column -t -s '|'
